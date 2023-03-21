@@ -77,6 +77,7 @@ const consultarProductos = () => {
 const Consultar_clientes = () => {
     let wb = new xl.Workbook();
     let ws = wb.addWorksheet('Clientes');
+    let dataCliente = wb.addWorksheet('dataCliente')
     let style = wb.createStyle({
         font: {
             color: '#040404',
@@ -97,13 +98,18 @@ const Consultar_clientes = () => {
     ws.cell(1, 5).string("strEmailTercero").style(red)
     ws.cell(1, 6).string("strDireccionTercero").style(red)
 
+    dataCliente.cell(1,1).string("strIdTercero").style(red)
+    dataCliente.cell(1,2).string("strNombre").style(red)
+    dataCliente.cell(1,3).string("strPassword").style(red)
+
+
 
     axios.post('https://api.bukappweb.com:3000/api/usuarios/login', {
         strIdUsuario: 'sistemas2inmoda@gmail.com',
         strClave: 'Inmoda2021*'
     }).then((response) => {
         const user = response.data.data;
-        console.log(user.id)
+        console.log("Iniciando...")
         axios.get('https://api.bukappweb.com:3000/api/terceros/', {
             headers: {
                 authorization: `Bearer ${user.token}`,
@@ -122,6 +128,10 @@ const Consultar_clientes = () => {
                     ws.cell(index+2,4).string(`'${Cliente.strCelular}',`).style(style)
                     ws.cell(index+2,5).string(`'${Cliente.strEmail}',`).style(style)
                     ws.cell(index+2,6).string(`'${Cliente.strDireccion}',`).style(style)
+
+                    dataCliente.cell(index+2,1).string(Cliente.strIdTercero).style(style)
+                    dataCliente.cell(index+2,2).string(Cliente.strNombre).style(style)
+                    dataCliente.cell(index+2,3).string(Cliente.strPassword).style(style)
                 });
 
                 const pathExcel = path.join(__dirname,'excel/clientes',`ClientesLista-${docFecha}.xlsx`);
