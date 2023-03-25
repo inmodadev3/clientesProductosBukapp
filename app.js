@@ -8,7 +8,13 @@ const fecha = new Date()
 const ano = fecha.getFullYear()
 const mes = fecha.getMonth()
 const dia = fecha.getDate()
-const docFecha = `${ano}-0${mes + 1}-${dia}`
+const hora = fecha.getHours()
+const minuto = fecha.getMinutes()
+let segundo  = fecha.getSeconds()
+if(segundo < 10){
+    segundo = `0${segundo}`
+}
+const docFecha = `${ano}-0${mes + 1}-${dia}-${hora}-${minuto}-${segundo}`
 
 const consultarProductos = () => {
     //excel
